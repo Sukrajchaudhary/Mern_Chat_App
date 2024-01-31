@@ -4,9 +4,9 @@
   "description": "chat server",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "server":"nodemon index.js",
-    "build":"npm install && npm install client && npm run build "
+    "start": "node backend/index.js",
+    "server":"nodemon backend/index.js",
+    "build":"npm install --legacy-peer-deps && npm install --legacy-peer-deps --prefix frontend && npm run build --prefix frontend"
   },
   "author": "sukraj",
   "license": "ISC",
