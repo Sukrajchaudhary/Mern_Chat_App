@@ -34,6 +34,7 @@ function App() {
   
   } catch (error) {
    console.log(error)
+   setauth({success:true})
   
   }
     

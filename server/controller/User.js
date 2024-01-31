@@ -1,6 +1,5 @@
 const { User } = require("../model/User");
 const jwt = require("jsonwebtoken");
-const secret = "sukraj@123";
 const bcrypt = require("bcryptjs");
 const {Sanitizer}=require("../middleware/Authentication")
 exports.createUser = async (req, res) => {
@@ -26,7 +25,7 @@ exports.createUser = async (req, res) => {
     // Save the user to the database
      await user.save();
     // Create JWT token
-    const token = jwt.sign(Sanitizer(user), secret);
+    const token = jwt.sign(Sanitizer(user), process.env.SECRETE);
     user.token=token;
     await user.save();
     return res
@@ -54,7 +53,7 @@ exports.loginUser = async (req, res) => {
     if (!bcrypt.compareSync(req.body.password, user.password)) {
       return res.status(200).json({ message: "Incorrect Password !!" });
     }
-    const token = jwt.sign(Sanitizer(user), secret);
+    const token = jwt.sign(Sanitizer(user), process.env.SECRETE);
     user.token=token;
     await user.save()
     res.header("token", token);

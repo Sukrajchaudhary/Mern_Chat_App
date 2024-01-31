@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -9,8 +10,7 @@ const Userrouter = require("./routes/User");
 const Conversationsrouter = require("./routes/Conversations");
 const messageRouter = require("./routes/Message");
 const authRouter = require("./routes/Auth");
-const { User } = require("./model/User");
-
+const path = require('path');
 app.use(express.json());
 app.use(
   cors({
@@ -26,16 +26,40 @@ app.use("/api", Userrouter.router);
 app.use("/api", Authentication, Conversationsrouter.router);
 app.use("/api", Authentication, messageRouter.router);
 app.use("/api", Authentication, authRouter.router);
+// deployment
 
-const server = app.listen(8080, () => {
+const __dirname1=path.resolve()
+if(process.env.NODE_ENV==="productions"){
+app.use(express.static(path.join(__dirname1,"/frontend/dist")));
+app.get('*',(req,res)=>{
+  res.sendFile(path.resolve(__dirname1,"frontend","dist","index.html"))
+})
+  
+  // Redirect all routes to /Login in production
+  app.get('*', (req, res) => {
+    res.redirect('/Login');
+  });
+}
+else{
+  app.get("/",(req,res)=>{
+    res.send("API runnung successfully")
+  })
+  app.get('*', (req, res) => {
+    res.redirect('/Login');
+  });
+}
+
+const port = process.env.PORT;
+const server = app.listen(port, () => {
   console.log(`App is running on port localhost://8080`);
 });
 const io = require("socket.io")(server, {
   pingTimeout: 6000,
   cors: {
-    origin: true,
+    origin:true
   },
 });
+
 let OnlineUsers = [];
 io.on("connection", (socket) => {
   console.log("new connection", socket.id);

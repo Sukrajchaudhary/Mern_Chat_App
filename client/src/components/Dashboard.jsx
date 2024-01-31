@@ -122,8 +122,10 @@ const Dashboard = () => {
       });
     }
   }, [socket]);
+
   return (
     <>
+
       <div className="flex h-screen overflow-hidden">
         {/* Sidebar */}
         <div className="w-1/4 bg-white border-r border-gray-300">
@@ -159,6 +161,7 @@ const Dashboard = () => {
                   {auth?.username}
                 </h2>
               </div>
+             
             </div>
           </div>
           {/* end of user profile */}

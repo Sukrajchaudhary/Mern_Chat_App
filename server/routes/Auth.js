@@ -1,5 +1,5 @@
 const express = require("express");
-const { checkAuth } = require("../controller/Auth");
+const { checkAuth, Logout } = require("../controller/Auth");
 const router = express.Router();
-router.get("/checkAuth", checkAuth);
+router.get("/checkAuth", checkAuth).get("/logout", Logout);
 exports.router = router;

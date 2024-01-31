@@ -18,7 +18,7 @@ exports.CreateMessage = async (req, res) => {
 exports.getMessage=async(req,res)=>{
     try {
         const {coneversationsId}=req.params;
-        const message= await Message.find({conversationId:coneversationsId}).sort({createdAt:-1});
+        const message= await Message.find({conversationId:coneversationsId}).sort({createdAt:1});
         return res.status(200).send(message)
     } catch (error) {
         return res.status(200).send(error.message);
